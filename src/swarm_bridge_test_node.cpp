@@ -9,9 +9,12 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "swarm_bridge_node");
     ros::NodeHandle nh("~");
 
+    int id;
+    nh.getParam("self_id", id);
+
     // initialize
     SwarmBridge::Ptr swarm_bridge;
-    swarm_bridge.reset(new SwarmBridge(nh));
+    swarm_bridge.reset(new SwarmBridge(id));
 
     // add a subscriber, 
     // which callback function implemented by lambda a function.

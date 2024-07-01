@@ -78,10 +78,10 @@ SwarmBridge::SwarmBridge(int id) : self_id_(id)
     std::string self_ip = "127.0.0.1";
     std::string broadcast_ip = "127.0.0.255";
 
-    if (!(nh.getParam("network/net_mode", net_mode) &&
-          nh.getParam("network/udp_timeout", udp_timeout) &&
-          nh.getParam("network/self_ip", self_ip) &&
-          nh.getParam("network/broadcast_ip", broadcast_ip)))
+    if (!(nh.getParam("net_mode", net_mode) &&
+          nh.getParam("udp_timeout", udp_timeout) &&
+          nh.getParam("self_ip", self_ip) &&
+          nh.getParam("broadcast_ip", broadcast_ip)))
     {
       ROS_FATAL("[SwarmBridge] get param failed");
       ros::shutdown();
