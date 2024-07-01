@@ -17,9 +17,10 @@ class TCPBridge
 {
 public:
   typedef std::shared_ptr<TCPBridge> Ptr;
-  TCPBridge(){
-      // bridge_.reset(new ReliableBridge(self_id_, 100000));
-      callback_list_.reset(new CallbackList());
+  TCPBridge()
+  {
+    // bridge_.reset(new ReliableBridge(self_id_, 100000));
+    callback_list_.reset(new CallbackList());
   };
   TCPBridge(const TCPBridge &rhs) = delete;
   TCPBridge &operator=(const TCPBridge &rhs) = delete;
@@ -44,7 +45,7 @@ public:
   template <typename T>
   void registerCallFunc(const std::string &topic_name, std::function<void(T)> func)
   {
-    for (auto callback_name:callback_name_list_)
+    for (auto callback_name : callback_name_list_)
     {
       if (callback_name == topic_name)
       {
@@ -77,10 +78,10 @@ public:
       }
       ROS_WARN("[SwarmBridge] [TCPBridge] delete ID IP map: %d %s", it.first, it.second.c_str());
 
-      for (uint64_t i=0; i<callback_list_->size(); ++i)
+      for (uint64_t i = 0; i < callback_list_->size(); ++i)
         bridge_->register_callback(it.first,
-                                   callback_name_list_[i], 
-                                   [](int ID, ros::SerializedMessage &m){});
+                                   callback_name_list_[i],
+                                   [](int ID, ros::SerializedMessage &m) {});
 
       bridge_->delete_bridge(it.first);
     }
@@ -100,11 +101,11 @@ public:
       ROS_WARN("[SwarmBridge] [TCPBridge] update ID IP map: %d %s", it.first, it.second.c_str());
       bridge_->update_bridge(it.first, it.second);
 
-      for (uint64_t i=0; i<callback_list_->size(); ++i)
+      for (uint64_t i = 0; i < callback_list_->size(); ++i)
       {
-        bridge_->register_callback(it.first, callback_name_list_[i], 
-            [this, i](int ID, ros::SerializedMessage &m)
-            {callback_list_->getWrapper(i)->execute_other(ID, m);});
+        bridge_->register_callback(it.first, callback_name_list_[i],
+                                   [this, i](int ID, ros::SerializedMessage &m)
+                                   { callback_list_->getWrapper(i)->execute_other(ID, m); });
       }
     }
 
@@ -151,7 +152,6 @@ private:
 
   CallbackList::Ptr callback_list_;
   std::vector<std::string> callback_name_list_;
-
 };
 
 #endif

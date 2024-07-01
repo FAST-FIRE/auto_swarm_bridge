@@ -30,7 +30,7 @@ public:
   {
     ROS_ERROR("[SwarmBridge] [UDPBridge] stopping");
     stop_flag_ = true;
-    
+
     if (udp_recv_thread_.joinable())
       udp_recv_thread_.join();
 
@@ -51,10 +51,8 @@ public:
   };
 
   void setNetMode(const std::string &net_mode,
-                  const std::vector<int> &id_list,
-                  const std::vector<std::string> &ip_list,
-                  const std::string &self_ip="127.0.0.1",
-                  const std::string &broadcast_ip="127.0.0.255")
+                  const std::string &self_ip = "127.0.0.1",
+                  const std::string &broadcast_ip = "127.0.0.255")
   {
     net_mode_ = net_mode;
     self_ip_ = self_ip;
@@ -273,34 +271,31 @@ private:
         // exit(EXIT_FAILURE);
         continue;
       }
-      
+
       char *ptr = udp_recv_buf_;
       ptr += sizeof(int);
       switch (*((MESSAGE_TYPE *)ptr))
       {
-        case MESSAGE_TYPE::IDIP:
+      case MESSAGE_TYPE::IDIP:
+      {
+        if (valread == deserializeTopic(udp_recv_idip_msg_))
         {
-          if (valread == deserializeTopic(udp_recv_idip_msg_))
-          {
-            std::unique_lock<std::shared_mutex> lock(map_mutex_);
-            id_ip_map_[udp_recv_idip_msg_.id] = std::to_string((int32_t)(udp_recv_idip_msg_.ip0)) 
-                                              + "." + std::to_string((int32_t)(udp_recv_idip_msg_.ip1)) 
-                                              + "." + std::to_string((int32_t)(udp_recv_idip_msg_.ip2)) 
-                                              + "." + std::to_string((int32_t)(udp_recv_idip_msg_.ip3));
-            id_time_map_[udp_recv_idip_msg_.id] = ros::Time::now().toSec();
-          }
-          else
-          {
-            ROS_WARN("[SwarmBridge] [UDPBridge] received message length not matches the sent one !!!");
-            continue;
-          }
-          break;
+          std::unique_lock<std::shared_mutex> lock(map_mutex_);
+          id_ip_map_[udp_recv_idip_msg_.id] = std::to_string((int32_t)(udp_recv_idip_msg_.ip0)) + "." + std::to_string((int32_t)(udp_recv_idip_msg_.ip1)) + "." + std::to_string((int32_t)(udp_recv_idip_msg_.ip2)) + "." + std::to_string((int32_t)(udp_recv_idip_msg_.ip3));
+          id_time_map_[udp_recv_idip_msg_.id] = ros::Time::now().toSec();
         }
-        default:
+        else
         {
-          ROS_WARN("[SwarmBridge] [UDPBridge] unknown received message type ???");
-          break;
+          ROS_WARN("[SwarmBridge] [UDPBridge] received message length not matches the sent one !!!");
+          continue;
         }
+        break;
+      }
+      default:
+      {
+        ROS_WARN("[SwarmBridge] [UDPBridge] unknown received message type ???");
+        break;
+      }
       }
     }
   }
