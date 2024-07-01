@@ -4,19 +4,9 @@
     <arg name="broadcast_ip"    default="10.1.255.255"/>
 
     <node pkg="swarm_bridge" name="swarm_bridge" type="swarm_bridge_node" output="screen">
-        <param name="net_mode"       value="manual"/>
+        <param name="net_mode"       value="auto"/>
         <param name="self_id"        value="0"/>
         <param name="self_ip"        value="127.0.0.200"/>
-        <param name="broadcast_ip"   value="127.0.0.255"/>
-        <param name="udp_timeout"    value="10"/>
-        <param name="simulation"     value="true"/>
-        <param name="virtual_network_delay" value="0.05"/>
-    </node>
-
-    <node pkg="swarm_bridge" name="swarm_bridge2" type="swarm_bridge_node" output="screen">
-        <param name="net_mode"       value="manual"/>
-        <param name="self_id"        value="1"/>
-        <param name="self_ip"        value="127.0.0.100"/>
         <param name="broadcast_ip"   value="127.0.0.255"/>
         <param name="udp_timeout"    value="10"/>
         <param name="simulation"     value="true"/>

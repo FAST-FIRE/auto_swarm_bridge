@@ -150,7 +150,7 @@ private:
 
   void delete_bridge_thread(int id)
   {
-    ROS_WARN("[CrepesFrontend] [SwarmBridge] [TCPBridge] [ReliableBridge] delete bridge %d", id);
+    ROS_WARN("[SwarmBridge] [TCPBridge] [ReliableBridge] delete bridge %d", id);
 
     if (!check_id(id))
     {

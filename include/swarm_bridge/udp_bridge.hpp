@@ -347,6 +347,7 @@ private:
     // }
 
     get_self_ip();
+    ROS_WARN("[SwarmBridge] [UDPBridge] self id: %d, self ip: %s, broadcast ip: %s", self_id_, self_ip_.c_str(), broadcast_ip_.c_str());
     udp_send_fd_ = init_broadcast(broadcast_ip_.c_str(), UDP_PORT);
 
     ros::Rate rate(1);
