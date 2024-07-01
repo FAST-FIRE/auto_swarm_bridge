@@ -68,9 +68,7 @@ SwarmBridge::SwarmBridge(int id) : self_id_(id)
   udp_bridge_.reset(new UDPBridge());
   tcp_bridge_.reset(new TCPBridge());
 
-  udp_bridge_->setSelfID(self_id_);
-  tcp_bridge_->setSelfID(self_id_);
-
+  // manual first 
   {
     ros::NodeHandle nh("~");
     std::string net_mode = "auto";
@@ -90,6 +88,10 @@ SwarmBridge::SwarmBridge(int id) : self_id_(id)
     udp_bridge_->setNetMode(net_mode, self_ip, broadcast_ip);
     udp_bridge_->setTimeOut(udp_timeout);
   }
+
+ // then auto 
+  udp_bridge_->setSelfID(self_id_);
+  tcp_bridge_->setSelfID(self_id_);
 
   swarm_bridge_thread_ = std::thread([this]
                                      { swarmBridgeThread(); });

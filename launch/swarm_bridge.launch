@@ -5,8 +5,8 @@
 
     <node pkg="swarm_bridge" name="swarm_bridge" type="swarm_bridge_node" output="screen">
         <param name="net_mode"       value="auto"/>
-        <param name="self_id"        value="0"/>
-        <param name="self_ip"        value="127.0.0.200"/>
+        <param name="self_id"        value="1"/>
+        <param name="self_ip"        value="127.0.0.123"/>
         <param name="broadcast_ip"   value="127.0.0.255"/>
         <param name="udp_timeout"    value="10"/>
         <param name="simulation"     value="true"/>
